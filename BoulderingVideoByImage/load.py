@@ -1,0 +1,4 @@
+from BoulderingVideoByImage.lidar_processor import convert_to_urdf
+
+
+convert_to_urdf.convert_to_urdf("BoulderingVideoByImage\simulationPyBullet\assets\climbing_wall.obj","BoulderingVideoByImage\climbing_wall.urdf")

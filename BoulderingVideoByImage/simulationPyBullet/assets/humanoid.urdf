@@ -1,0 +1,345 @@
+<?xml version="1.0"?>
+<robot name="climbing_humanoid">
+
+  <!-- MATERIAL DEFINITIONS -->
+  <material name="blue">
+    <color rgba="0.47 0.55 0.69 1"/>
+  </material>
+  <material name="light_blue">
+    <color rgba="0.64 0.69 0.74 1"/>
+  </material>
+  <material name="dark_blue">
+    <color rgba="0.35 0.41 0.47 1"/>
+  </material>
+
+  <!-- BASE LINK -->
+  <link name="root">
+    <inertial>
+      <origin xyz="0 0.07 0" rpy="0 0 0"/>
+      <mass value="6.0"/>
+      <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <sphere radius="0.18"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.18"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- CHEST (SPHERICAL) -->
+  <link name="chest">
+    <inertial>
+      <origin xyz="0 0.12 0" rpy="0 0 0"/>
+      <mass value="14.0"/>
+      <inertia ixx="0.2" ixy="0" ixz="0" iyy="0.2" iyz="0" izz="0.2"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <sphere radius="0.22"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+  </link>
+
+  <joint name="chest_joint" type="spherical">
+    <parent link="root"/>
+    <child link="chest"/>
+    <origin xyz="0 0.236 0" rpy="0 0 0"/>
+    <limit lower="-1.2" upper="1.2" effort="200"/>
+  </joint>
+
+  <!-- NECK (SPHERICAL) -->
+  <link name="neck">
+    <inertial>
+      <origin xyz="0 0.175 0" rpy="0 0 0"/>
+      <mass value="2.0"/>
+      <inertia ixx="0.05" ixy="0" ixz="0" iyy="0.05" iyz="0" izz="0.05"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <sphere radius="0.205"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+  </link>
+
+  <joint name="neck_joint" type="spherical">
+    <parent link="chest"/>
+    <child link="neck"/>
+    <origin xyz="0 0.224 0" rpy="0 0 0"/>
+    <limit lower="-1.0" upper="1.0" effort="50"/>
+  </joint>
+
+  <!-- RIGHT HIP (SPHERICAL) -->
+  <link name="right_hip">
+    <inertial>
+      <origin xyz="0 -0.21 0" rpy="0 0 0"/>
+      <mass value="4.5"/>
+      <inertia ixx="0.08" ixy="0" ixz="0" iyy="0.08" iyz="0" izz="0.08"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <capsule radius="0.11" length="0.3"/>
+      </geometry>
+      <material name="light_blue"/>
+    </visual>
+  </link>
+
+  <joint name="right_hip_joint" type="spherical">
+    <parent link="root"/>
+    <child link="right_hip"/>
+    <origin xyz="0 0 0.085" rpy="0 0 0"/>
+    <limit lower="-1.2" upper="1.2" effort="200"/>
+  </joint>
+
+  <!-- RIGHT KNEE (REVOLUTE) -->
+  <link name="right_knee">
+    <inertial>
+      <origin xyz="0 -0.2 0" rpy="0 0 0"/>
+      <mass value="3.0"/>
+      <inertia ixx="0.06" ixy="0" ixz="0" iyy="0.06" iyz="0" izz="0.06"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <capsule radius="0.1" length="0.31"/>
+      </geometry>
+      <material name="light_blue"/>
+    </visual>
+  </link>
+
+  <joint name="right_knee_joint" type="revolute">
+    <parent link="right_hip"/>
+    <child link="right_knee"/>
+    <origin xyz="0 -0.422 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-3.14" upper="0" effort="150"/>
+  </joint>
+
+  <!-- RIGHT ANKLE (SPHERICAL) -->
+  <link name="right_ankle">
+    <inertial>
+      <origin xyz="0.045 -0.023 0" rpy="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.02"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.177 0.055 0.09"/>
+      </geometry>
+      <material name="light_blue"/>
+    </visual>
+  </link>
+
+  <joint name="right_ankle_joint" type="spherical">
+    <parent link="right_knee"/>
+    <child link="right_ankle"/>
+    <origin xyz="0 -0.41 0" rpy="0 0 0"/>
+    <limit lower="-1.0" upper="1.0" effort="90"/>
+  </joint>
+
+  <!-- RIGHT SHOULDER (SPHERICAL) -->
+  <link name="right_shoulder">
+    <inertial>
+      <origin xyz="0 -0.14 0" rpy="0 0 0"/>
+      <mass value="1.5"/>
+      <inertia ixx="0.04" ixy="0" ixz="0" iyy="0.04" iyz="0" izz="0.04"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <capsule radius="0.09" length="0.18"/>
+      </geometry>
+      <material name="light_blue"/>
+    </visual>
+  </link>
+
+  <joint name="right_shoulder_joint" type="spherical">
+    <parent link="chest"/>
+    <child link="right_shoulder"/>
+    <origin xyz="-0.024 0.243 0.183" rpy="0 0 0"/>
+    <limit lower="-3.14" upper="0.5" effort="100"/>
+  </joint>
+
+  <!-- RIGHT ELBOW (REVOLUTE) -->
+  <link name="right_elbow">
+    <inertial>
+      <origin xyz="0 -0.12 0" rpy="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.03" ixy="0" ixz="0" iyy="0.03" iyz="0" izz="0.03"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <capsule radius="0.08" length="0.135"/>
+      </geometry>
+      <material name="light_blue"/>
+    </visual>
+  </link>
+
+  <joint name="right_elbow_joint" type="revolute">
+    <parent link="right_shoulder"/>
+    <child link="right_elbow"/>
+    <origin xyz="0 -0.275 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0" upper="3.14" effort="60"/>
+  </joint>
+
+  <!-- RIGHT WRIST (FIXED) -->
+  <link name="right_wrist">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <sphere radius="0.08"/>
+      </geometry>
+      <material name="light_blue"/>
+    </visual>
+  </link>
+
+  <joint name="right_wrist_joint" type="fixed">
+    <parent link="right_elbow"/>
+    <child link="right_wrist"/>
+    <origin xyz="0 -0.259 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- LEFT HIP (SPHERICAL) -->
+  <link name="left_hip">
+    <inertial>
+      <origin xyz="0 -0.21 0" rpy="0 0 0"/>
+      <mass value="4.5"/>
+      <inertia ixx="0.08" ixy="0" ixz="0" iyy="0.08" iyz="0" izz="0.08"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <capsule radius="0.11" length="0.3"/>
+      </geometry>
+      <material name="dark_blue"/>
+    </visual>
+  </link>
+
+  <joint name="left_hip_joint" type="spherical">
+    <parent link="root"/>
+    <child link="left_hip"/>
+    <origin xyz="0 0 -0.085" rpy="0 0 0"/>
+    <limit lower="-1.2" upper="1.2" effort="200"/>
+  </joint>
+
+  <!-- LEFT KNEE (REVOLUTE) -->
+  <link name="left_knee">
+    <inertial>
+      <origin xyz="0 -0.2 0" rpy="0 0 0"/>
+      <mass value="3.0"/>
+      <inertia ixx="0.06" ixy="0" ixz="0" iyy="0.06" iyz="0" izz="0.06"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <capsule radius="0.1" length="0.31"/>
+      </geometry>
+      <material name="dark_blue"/>
+    </visual>
+  </link>
+
+  <joint name="left_knee_joint" type="revolute">
+    <parent link="left_hip"/>
+    <child link="left_knee"/>
+    <origin xyz="0 -0.422 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-3.14" upper="0" effort="150"/>
+  </joint>
+
+  <!-- LEFT ANKLE (SPHERICAL) -->
+  <link name="left_ankle">
+    <inertial>
+      <origin xyz="0.045 -0.023 0" rpy="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.02" iyz="0" izz="0.02"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.177 0.055 0.09"/>
+      </geometry>
+      <material name="dark_blue"/>
+    </visual>
+  </link>
+
+  <joint name="left_ankle_joint" type="spherical">
+    <parent link="left_knee"/>
+    <child link="left_ankle"/>
+    <origin xyz="0 -0.41 0" rpy="0 0 0"/>
+    <limit lower="-1.0" upper="1.0" effort="90"/>
+  </joint>
+
+  <!-- LEFT SHOULDER (SPHERICAL) -->
+  <link name="left_shoulder">
+    <inertial>
+      <origin xyz="0 -0.14 0" rpy="0 0 0"/>
+      <mass value="1.5"/>
+      <inertia ixx="0.04" ixy="0" ixz="0" iyy="0.04" iyz="0" izz="0.04"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <capsule radius="0.09" length="0.18"/>
+      </geometry>
+      <material name="dark_blue"/>
+    </visual>
+  </link>
+
+  <joint name="left_shoulder_joint" type="spherical">
+    <parent link="chest"/>
+    <child link="left_shoulder"/>
+    <origin xyz="-0.024 0.243 -0.183" rpy="0 0 0"/>
+    <limit lower="-0.5" upper="3.14" effort="100"/>
+  </joint>
+
+  <!-- LEFT ELBOW (REVOLUTE) -->
+  <link name="left_elbow">
+    <inertial>
+      <origin xyz="0 -0.12 0" rpy="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.03" ixy="0" ixz="0" iyy="0.03" iyz="0" izz="0.03"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <capsule radius="0.08" length="0.135"/>
+      </geometry>
+      <material name="dark_blue"/>
+    </visual>
+  </link>
+
+  <joint name="left_elbow_joint" type="revolute">
+    <parent link="left_shoulder"/>
+    <child link="left_elbow"/>
+    <origin xyz="0 -0.275 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="0" upper="3.14" effort="60"/>
+  </joint>
+
+  <!-- LEFT WRIST (FIXED) -->
+  <link name="left_wrist">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <sphere radius="0.08"/>
+      </geometry>
+      <material name="dark_blue"/>
+    </visual>
+  </link>
+
+  <joint name="left_wrist_joint" type="fixed">
+    <parent link="left_elbow"/>
+    <child link="left_wrist"/>
+    <origin xyz="0 -0.259 0" rpy="0 0 0"/>
+  </joint>
+
+</robot>

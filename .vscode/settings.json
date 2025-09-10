@@ -1,0 +1,6 @@
+{
+    "python.analysis.autoImportCompletions": true,
+    "python.jediEnabled": false,
+    "python.languageServer": "Pylance",  // (Optional but recommended)
+    "vsintellicode.python.completionsEnabled": true
+}

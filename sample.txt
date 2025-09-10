@@ -1,0 +1,6 @@
+r'runs\detect\boulder_detection7\weights\best.pt'
+
+input_video.mp4
+
+
+test1.jpg
